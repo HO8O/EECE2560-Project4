@@ -1,5 +1,6 @@
 // Sample solution for project #5
 
+#include <boost/graph/adjacency_list.hpp>
 #include <iostream>
 #include <limits.h>
 #include <list>
@@ -13,7 +14,34 @@
 
 #define LargeValue 99999999
 
+using namespace boost;
 using namespace std;
+
+struct VertexProperties;
+struct EdgeProperties;
+
+typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
+
+struct VertexProperties
+{
+	pair<int, int> cell; // maze cell (x,y) value
+	Graph::vertex_descriptor pred;
+	bool visited;
+	bool marked;
+	int weight;
+};
+
+// Create a struct to hold properties for each edge
+struct EdgeProperties
+{
+	int weight;
+	bool visited;
+	bool marked;
+};
+
+typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
+
+// typedef property<edge_weight_t, int> EdgeProperty;
 
 class maze
 {
@@ -55,7 +83,7 @@ maze::maze(ifstream &fin)
             value[i][j] = false;
       }
    
-   vMap.resize(rows,cols);
+   //vMap.resize(rows,cols);
 }
 
 void maze::print(int goalI, int goalJ, int currI, int currJ)
@@ -102,7 +130,41 @@ bool maze::isLegal(int i, int j)
 
 void maze::mapMazeToGraph(Graph &g)
 // Create a graph g that represents the legal moves in the maze m.
+{
 
+}
+
+// Prints the path represented by the vertices in stack s. Repeatedly
+// calls print() to show each step of the path.
 void maze::printPath(Graph::vertex_descriptor end,
-                     stack<Graph::vertex_descriptor> &s,
-                     Graph g)
+	stack<Graph::vertex_descriptor> &s,
+	Graph g)
+{
+
+}
+
+void clearVisited(Graph &g)
+// Mark all nodes in g as not visited.
+{
+
+}
+
+void setNodeWeights(Graph &g, int w)
+// Set all node weights to w.
+{
+
+}
+
+void clearMarked(Graph &g)
+// Unmark all nodes.
+{
+
+}
+
+ostream &operator<<(ostream &ostr, const Graph &g)
+// Output operator for the Graph class. Prints out all nodes and their
+// properties, and all edges and their properties.
+{
+	return ostr;
+}
+

@@ -6,46 +6,14 @@
 #include <queue>
 
 #include <boost/graph/adjacency_list.hpp>
+#include "d_except.h"
+#include "d_matrix.h"
+#include "maze.h"
+
 //#include "heapV.h"
 
 using namespace boost;
 using namespace std;
-
-struct VertexProperties;
-struct EdgeProperties;
-
-typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
-
-struct VertexProperties
-{
-   pair<int,int> cell; // maze cell (x,y) value
-   Graph::vertex_descriptor pred;
-   bool visited;
-   bool marked;
-   int weight;
-};
-
-// Create a struct to hold properties for each edge
-struct EdgeProperties
-{
-   int weight;
-   bool visited;
-   bool marked;
-};
-
-typedef adjacency_list<vecS, vecS, bidirectionalS, VertexProperties, EdgeProperties> Graph;
-
-// typedef property<edge_weight_t, int> EdgeProperty;
-
-#define LargeValue 99999999
-
-void clearVisited(Graph &g)
-// Mark all nodes in g as not visited.
-
-void setNodeWeights(Graph &g, int w)
-// Set all node weights to w.
-
-void clearMarked(Graph &g)
    
 int main()
 {
@@ -54,7 +22,9 @@ int main()
       ifstream fin;
 
       // Read the maze from the file.
-      string fileName = "/Users/wmeleis/2560-code/path/path/maze1.txt";
+	  string fileName;
+	  cout << "Enter path to puzzle : ";
+	  cin >> fileName;
       
       fin.open(fileName.c_str());
       if (!fin)
@@ -71,6 +41,10 @@ int main()
       Graph g;
       m.mapMazeToGraph(g);
 
-      cout << g << endl;
+      //cout << g << endl;
+   }
+   catch (baseException b)
+   {
+
    }
 }
