@@ -146,19 +146,44 @@ void maze::printPath(Graph::vertex_descriptor end,
 void clearVisited(Graph &g)
 // Mark all nodes in g as not visited.
 {
+	// Get a pair containing iterators pointing the beginning and end of the
+	// list of nodes
+	pair<Graph::vertex_iterator, Graph::vertex_iterator> vItrRange = vertices(g);
 
+	// Loop over all nodes in the graph
+	for (Graph::vertex_iterator vItr = vItrRange.first; vItr != vItrRange.second; ++vItr)
+	{
+		g[*vItr].visited = false;
+	}
 }
 
 void setNodeWeights(Graph &g, int w)
 // Set all node weights to w.
 {
 
+	// Get a pair containing iterators pointing the beginning and end of the
+	// list of nodes
+	pair<Graph::vertex_iterator, Graph::vertex_iterator> vItrRange = vertices(g);
+
+	// Loop over all nodes in the graph
+	for (Graph::vertex_iterator vItr = vItrRange.first; vItr != vItrRange.second; ++vItr)
+	{
+		g[*vItr].weight = w;
+	}
 }
 
 void clearMarked(Graph &g)
 // Unmark all nodes.
 {
+	// Get a pair containing iterators pointing the beginning and end of the
+	// list of nodes
+	pair<Graph::vertex_iterator, Graph::vertex_iterator> vItrRange = vertices(g);
 
+	// Loop over all nodes in the graph
+	for (Graph::vertex_iterator vItr = vItrRange.first; vItr != vItrRange.second; ++vItr)
+	{
+		g[*vItr].marked = false;
+	}
 }
 
 ostream &operator<<(ostream &ostr, const Graph &g)
