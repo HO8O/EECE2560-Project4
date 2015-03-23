@@ -61,6 +61,7 @@ private:
    int cols; // number of columns in the maze12 a
    
    matrix<bool> value;
+   matrix<Graph::vertex_descriptor> vMap;
 };
 
 maze::maze(ifstream &fin)
@@ -83,7 +84,7 @@ maze::maze(ifstream &fin)
             value[i][j] = false;
       }
    
-   //vMap.resize(rows,cols);
+   vMap.resize(rows,cols);
 }
 
 void maze::print(int goalI, int goalJ, int currI, int currJ)
@@ -131,7 +132,20 @@ bool maze::isLegal(int i, int j)
 void maze::mapMazeToGraph(Graph &g)
 // Create a graph g that represents the legal moves in the maze m.
 {
-
+	for (int i = 0; i < rows; i++)
+	{
+		for (int  j = 0; j < cols; j++)
+		{
+			vMap[i][j] = add_vertex(g);
+			g[vMap[i][j]].cell = make_pair(i, j);
+			g[vMap[i][j]].visited = false;
+			g[vMap[i][j]].pred = vMap[i][j];
+			g[vMap[i][j]].weight = 0;
+			g[vMap[i][j]].marked = value[i][j];
+		}
+	}
+	
+	//create edges
 }
 
 // Prints the path represented by the vertices in stack s. Repeatedly
@@ -140,7 +154,11 @@ void maze::printPath(Graph::vertex_descriptor end,
 	stack<Graph::vertex_descriptor> &s,
 	Graph g)
 {
-
+	while (!s.empty())
+	{
+		print((rows - 1), (cols - 1), g[s.top()].cell.first, g[s.top()].cell.second);
+		s.pop();
+	}
 }
 
 void clearVisited(Graph &g)
@@ -190,6 +208,22 @@ ostream &operator<<(ostream &ostr, const Graph &g)
 // Output operator for the Graph class. Prints out all nodes and their
 // properties, and all edges and their properties.
 {
+	pair<Graph::vertex_iterator, Graph::vertex_iterator> vItrRange = vertices(g);
+
+	for (Graph::vertex_iterator vItr = vItrRange.first; vItr != vItrRange.second; ++vItr)
+	{
+		cout << "Cell: " << g[*vItr].cell.first << ", " << g[*vItr].cell.second <<
+			"     Visited: " << g[*vItr].visited << "     Marked: " << g[*vItr].marked <<
+			"     Weight: " << g[*vItr].weight << "\n";
+	}
+
+	pair<Graph::edge_iterator, Graph::edge_iterator> eItrRange = edges(g);
+
+	for (Graph::edge_iterator eItr = eItrRange.first; eItr != eItrRange.second; ++eItr)
+	{
+		cout << "Visited: " << g[*eItr].visited << "     Marked: " << g[*eItr].marked <<
+			"     Weight: " << g[*eItr].weight << "\n";
+	}
 	return ostr;
 }
 

@@ -41,10 +41,11 @@ int main()
       Graph g;
       m.mapMazeToGraph(g);
 
-      //cout << g << endl;
+      cout << g << endl;
    }
    catch (baseException b)
    {
 
    }
+   while (1);
 }
